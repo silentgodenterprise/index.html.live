@@ -3,93 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Logistics LLC | Portal</title>
+    <title>Global Logistics LLC | Executive Tracking</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --gold: #D4AF37; --dark: #050505; --card: #121212; --red: #ff4d4d; --green: #00ff88; --blue: #00a2ff; }
-        body { background: var(--dark); color: #fff; font-family: 'Inter', sans-serif; margin: 0; padding: 20px; }
-        .brand { text-align: center; color: var(--gold); font-weight: 900; font-size: 1.4rem; letter-spacing: 3px; margin-bottom: 20px; text-transform: uppercase; }
-        .search-area { background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid #222; margin-bottom: 20px; }
-        input { width: 100%; padding: 15px; background: #000; border: 1px solid #333; color: #fff; border-radius: 8px; font-weight: bold; }
-        .btn-track { background: var(--gold); color: #000; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: 900; margin-top: 15px; cursor: pointer; }
-        
-        #portal { display: none; }
-        .status-badge { padding: 20px; border-radius: 10px; text-align: center; font-weight: 900; font-size: 1.3rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
-        .st-red { background: var(--red); box-shadow: 0 0 20px rgba(255, 77, 77, 0.3); }
-        .st-green { background: var(--green); color: #000; }
-        .st-blue { background: var(--blue); }
-
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        .item-card { background: var(--card); padding: 15px; border-radius: 12px; border: 1px solid #222; position: relative; }
-        .label { color: #555; font-size: 0.65rem; text-transform: uppercase; font-weight: 800; margin-bottom: 5px; }
-        .val { font-size: 0.95rem; font-weight: 700; color: #fff; }
-        .sub { color: #888; font-size: 0.75rem; margin-top: 5px; line-height: 1.3; }
-
-        .map-frame { width: 100%; height: 320px; border-radius: 12px; border: 1px solid #333; margin-top: 15px; }
-        .support-action { display: block; background: #fff; color: #000; text-align: center; padding: 18px; border-radius: 10px; text-decoration: none; font-weight: 900; margin-top: 25px; font-size: 1rem; border: 2px solid var(--gold); }
+        :root { --gold: #D4AF37; --dark: #0f0f0f; --card: #1a1a1a; --text: #e0e0e0; --green: #2ecc71; --red: #e74c3c; --amber: #f1c40f; }
+        body { background-color: var(--dark); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        .header { background: #000; padding: 25px; text-align: center; border-bottom: 2px solid var(--gold); letter-spacing: 2px; }
+        .brand { color: var(--gold); font-size: 1.5rem; font-weight: 900; text-transform: uppercase; }
+        .container { max-width: 900px; margin: 40px auto; padding: 20px; flex: 1; }
+        .search-box { background: var(--card); padding: 30px; border-radius: 8px; border: 1px solid #333; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        input { width: 70%; padding: 15px; border-radius: 5px; border: 1px solid #444; background: #222; color: #fff; font-size: 1rem; outline: none; }
+        .btn { padding: 15px 30px; background: var(--gold); color: #000; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px; }
+        #result-panel { display: none; margin-top: 30px; }
+        .status-banner { padding: 20px; border-radius: 8px; text-align: center; font-weight: bold; font-size: 1.2rem; text-transform: uppercase; margin-bottom: 20px; color: #fff; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .status-delivered { background-color: var(--green); }
+        .status-transit { background-color: var(--amber); color: #000; }
+        .status-hold { background-color: var(--red); }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .info-card { background: var(--card); padding: 20px; border-radius: 8px; border-left: 3px solid var(--gold); }
+        .label { color: #888; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px; }
+        .data { font-size: 1.1rem; font-weight: 500; }
+        .map-container { width: 100%; height: 300px; border-radius: 8px; overflow: hidden; border: 1px solid #333; margin-top: 20px; }
+        iframe { width: 100%; height: 100%; border: 0; }
+        .contact-section { margin-top: 30px; padding-top: 20px; border-top: 1px solid #333; display: flex; justify-content: space-around; }
+        .contact-link { color: var(--gold); text-decoration: none; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
     </style>
 </head>
 <body>
-
-<div class="brand">GLOBAL LOGISTICS LLC</div>
-
-<div class="search-area">
-    <input type="text" id="trackIn" placeholder="ENTER TRACKING ID">
-    <button class="btn-track" onclick="runTracking()">SECURE TRACK</button>
-</div>
-
-<div id="portal">
-    <div style="text-align:center; color:var(--gold); font-size:0.7rem; font-weight:900; margin-bottom:10px;">COURIER: GLOBAL LOGISTICS LLC</div>
-    <div id="stat-banner" class="status-badge"></div>
-
-    <div class="grid">
-        <div class="item-card"><div class="label">Sender (Origin)</div><div class="val" id="s-n"></div><div class="sub" id="s-a"></div></div>
-        <div class="item-card"><div class="label">Consignee (Dest)</div><div class="val" id="r-n"></div><div class="sub" id="r-a"></div></div>
+    <header class="header"><div class="brand"><i class="fas fa-globe-africa"></i> Global Logistics LLC</div></header>
+    <div class="container">
+        <div class="search-box">
+            <h2 style="margin-top:0; color:#fff;">TRACK SHIPMENT</h2>
+            <input type="text" id="trackingInput" placeholder="Enter Tracking ID">
+            <button class="btn" onclick="trackShipment()"><i class="fas fa-search"></i> TRACK</button>
+        </div>
+        <div id="result-panel">
+            <div id="status-box" class="status-banner"><i id="status-icon" class="fas fa-shipping-fast"></i> <span id="status-text"></span></div>
+            <div class="info-grid">
+                <div class="info-card" style="border-left-color: #555;"><div class="label">Sender</div><div class="data" id="s-name"></div><div id="s-loc" style="font-size:0.8rem;color:#888"></div></div>
+                <div class="info-card"><div class="label">Consignee</div><div class="data" id="r-name"></div><div id="r-dest" style="font-size:0.8rem;color:#888"></div></div>
+                <div class="info-card"><div class="label">Service</div><div id="r-service" class="data"></div></div>
+                <div class="info-card"><div class="label">Weight</div><div id="r-weight" class="data"></div></div>
+            </div>
+            <div class="info-card"><div class="label"><i class="fas fa-map-marker-alt"></i> Current Location</div><div class="data" id="r-loc"></div>
+                <div class="map-container"><iframe id="map-frame" src=""></iframe></div>
+            </div>
+            <div class="contact-section">
+                <a href="#" class="contact-link" id="email-action"><i class="fas fa-envelope"></i> Email Consignee</a>
+                <a href="tel:+1234567890" class="contact-link"><i class="fas fa-phone"></i> Support</a>
+            </div>
+        </div>
     </div>
-
-    <div class="grid">
-        <div class="item-card"><div class="label">Service Level</div><div class="val" id="svc" style="color:var(--gold)"></div></div>
-        <div class="item-card"><div class="label">Gross Weight</div><div class="val" id="wt"></div></div>
-    </div>
-
-    <div class="item-card">
-        <div class="label">Current Location Update</div>
-        <div class="val" id="loc-now"></div>
-        <iframe id="map-view" class="map-frame"></iframe>
-    </div>
-
-    <a href="mailto:trustgloballogisticsllc@gmail.com" class="support-action">
-        <i class="fas fa-envelope"></i> CONTACT SUPPORT
-    </a>
-</div>
-
-<script>
-    const client = supabase.createClient('https://szegegtenkudltrqpwgt.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6ZWdlZ3Rlbmt1ZGx0cnFwd2d0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwMjUxMTksImV4cCI6MjA4NTYwMTExOX0.nFes3cgEF8QHVs1USV6lcvCR3E7TIAgIEvwA0FEMBZU');
-
-    async function runTracking() {
-        const id = document.getElementById('trackIn').value;
-        const { data, error } = await client.from('shipments').select('*').eq('tracking_number', id).single();
-        
-        if (data) {
-            document.getElementById('portal').style.display = 'block';
-            document.getElementById('s-n').innerText = data.sender_name;
-            document.getElementById('s-a').innerText = data.sender_address;
-            document.getElementById('r-n').innerText = data.recipient_name;
-            document.getElementById('r-a').innerText = data.recipient_address;
-            document.getElementById('svc').innerText = data.service_type;
-            document.getElementById('wt').innerText = data.weight_kg + " KG";
-            document.getElementById('loc-now').innerText = data.current_location;
-            
-            const banner = document.getElementById('stat-banner');
-            banner.innerText = data.status;
-            banner.className = 'status-badge ' + (data.status === 'HELD IN CUSTOMS' ? 'st-red' : (data.status === 'DELIVERED' ? 'st-green' : 'st-blue'));
-            
-            document.getElementById('map-view').src = `https://maps.google.com/maps?q=${encodeURIComponent(data.current_location)}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
-        } else {
-            alert("Security Error: Tracking ID not found in Global Logistics database.");
+    <script>
+        const client = supabase.createClient('https://szegegtenkudltrqpwgt.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6ZWdlZ3Rlbmt1ZGx0cnFwd2d0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwMjUxMTksImV4cCI6MjA4NTYwMTExOX0.nFes3cgEF8QHVs1USV6lcvCR3E7TIAgIEvwA0FEMBZU');
+        async function trackShipment() {
+            const id = document.getElementById('trackingInput').value.trim();
+            const { data, error } = await client.from('shipments').select('*').eq('tracking_number', id).single();
+            if (error || !data) return alert("Tracking ID not found.");
+            document.getElementById('result-panel').style.display = 'block';
+            document.getElementById('s-name').innerText = data.sender_name || 'Global Logistics Partner';
+            document.getElementById('s-loc').innerText = (data.sender_city || '') + ', ' + (data.sender_country || '');
+            document.getElementById('r-name').innerText = data.receiver_name;
+            document.getElementById('r-dest').innerText = data.receiver_city + ', ' + data.receiver_country;
+            document.getElementById('r-service').innerText = data.service_type;
+            document.getElementById('r-weight').innerText = data.weight_kg + ' KG';
+            document.getElementById('r-loc').innerText = data.current_location;
+            const sb = document.getElementById('status-box');
+            const si = document.getElementById('status-icon');
+            document.getElementById('status-text').innerText = data.status;
+            sb.className = 'status-banner ' + (data.status === 'Delivered' ? 'status-delivered' : (['Held in Customs', 'Returned to Sender'].includes(data.status) ? 'status-hold' : 'status-transit'));
+            si.className = data.status === 'Delivered' ? 'fas fa-check-circle' : 'fas fa-shipping-fast';
+            document.getElementById('map-frame').src = `https://maps.google.com/maps?q=${encodeURIComponent(data.current_location)}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+            if(data.receiver_email) document.getElementById('email-action').href = `mailto:${data.receiver_email}`;
         }
-    }
-</script>
+    </script>
 </body>
 </html>
