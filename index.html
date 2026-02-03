@@ -76,14 +76,15 @@
             const { data, error } = await client.from('shipments').select('*').eq('tracking_number', id).single();
             if (error || !data) return alert("Tracking ID not found.");
             document.getElementById('result-panel').style.display = 'block';
-            // 1. Courier Card: Static brand name
+
+// 1. Courier Card
 document.getElementById('courier-display').innerText = "COURIER: GLOBAL LOGISTICS LLC";
 
-// This takes the "origin" text you manually typed in Supabase and puts it on the card
-document.getElementById('s-loc').innerText = data.origin;
+// 2. Origin Card (This looks for your new 'origin' column)
+document.getElementById('s-loc').innerText = data.origin || "Origin not set";
 
-// 3. Destination Card: Puts the address, city, and country together in one spot
-document.getElementById('r-dest').innerText = data.receiver_address + " " + data.receiver_city + ", " + data.receiver_country;
+// 3. Destination Card (Combines your 3 manual columns)
+document.getElementById('r-dest').innerText = (data.receiver_address || '') + " " + (data.receiver_city || '') + " " + (data.receiver_country || '');
             document.getElementById('courier-display').innerText = "Courier: Global Logistics LLC";
             document.getElementById('s-name').innerText = data.sender_name || 'Global Logistics Partner';
             document.getElementById('s-loc').innerText = (data.sender_city || '') + ', ' + (data.sender_country || '');
