@@ -7,34 +7,33 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* The container holding the cards */
+        /* 1. Force the container to behave */
 .info-grid {
-    display: flex;
-    flex-wrap: wrap; /* Allows cards to jump to the next line if screen is narrow */
-    gap: 15px;
-    justify-content: flex-start; /* Forces cards to stay on the LEFT */
-    align-items: stretch; /* Makes all cards in a row the same height */
-    width: 100%;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+    gap: 15px !important;
+    width: 100% !important;
+    padding: 10px 0 !important;
 }
 
-/* The individual cards */
+/* 2. Force the boxes to align left and stay independent */
 .info-card {
-    flex: 1 1 250px; /* Grow to fill space, but never be smaller than 250px */
-    max-width: 350px; /* Prevents cards from becoming too wide on desktop */
-    background: #1a1a1a;
-    border: 1px solid #333;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: left; /* Ensures text inside is left-aligned */
-    box-sizing: border-box; /* Prevents padding from breaking the width */
+    flex: 0 1 calc(33.33% - 15px) !important; /* Forces 3 per row on desktop */
+    min-width: 280px !important; /* On mobile, they will drop to the next line naturally */
+    background: #1a1a1a !important;
+    border-left: 3px solid #d4af37 !important; /* Gold executive accent */
+    padding: 15px !important;
+    box-sizing: border-box !important;
+    text-align: left !important;
+    margin: 0 !important;
 }
 
-/* Ensure the label and data inside the card are also left-aligned */
-.info-card .label, 
-.info-card .data {
-    display: block;
-    text-align: left;
-    width: 100%;
+/* 3. Ensure text inside doesn't center itself */
+.info-card * {
+    text-align: left !important;
+    margin-left: 0 !important;
 }
         :root { --gold: #D4AF37; --dark: #0f0f0f; --card: #1a1a1a; --text: #e0e0e0; --green: #2ecc71; --red: #e74c3c; --amber: #f1c40f; }
         body { background-color: var(--dark); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
