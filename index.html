@@ -79,8 +79,8 @@
             // 1. Courier Card: Static brand name
 document.getElementById('courier-display').innerText = "COURIER: GLOBAL LOGISTICS LLC";
 
-// 2. Origin Card: Puts the custom address and city together in one spot
-document.getElementById('s-loc').innerText = data.sender_address + " " + data.sender_city + ", " + data.sender_country;
+// This takes the "origin" text you manually typed in Supabase and puts it on the card
+document.getElementById('s-loc').innerText = data.origin;
 
 // 3. Destination Card: Puts the address, city, and country together in one spot
 document.getElementById('r-dest').innerText = data.receiver_address + " " + data.receiver_city + ", " + data.receiver_country;
