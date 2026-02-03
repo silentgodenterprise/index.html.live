@@ -81,14 +81,14 @@
             document.getElementById('result-panel').style.display = 'block';
 
            // Origin
-           document.getElementById('origin-address').innerText = '123 Warehouse Blvd';
-           document.getElementById('origin-city').innerText = 'Los Angeles';
-           document.getElementById('origin-country').innerText = 'United States';
+           document.getElementById('origin-address').innerText = data.origin_address;
+           document.getElementById('origin-city').innerText = data.origin_city;
+           document.getElementById('origin-country').innerText = data.origin_country;
 
            // Destination
-            document.getElementById('dest-address').innerText = '456 Receiver Street';
-            document.getElementById('dest-city').innerText = 'London';
-            document.getElementById('dest-country').innerText = 'United Kingdom';
+            document.getElementById('dest-address').innerText = data.destination_adress;
+            document.getElementById('dest-city').innerText = data.destination_city;
+            document.getElementById('dest-country').innerText = data.destination_country;
             document.getElementById('courier-display').innerText = "Courier: Global Logistics LLC";
             document.getElementById('s-name').innerText = data.sender_name || 'Global Logistics Partner';
             document.getElementById('s-loc').innerText = (data.sender_city || '') + ', ' + (data.sender_country || '');
