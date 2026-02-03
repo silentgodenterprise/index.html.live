@@ -76,6 +76,14 @@
             const { data, error } = await client.from('shipments').select('*').eq('tracking_number', id).single();
             if (error || !data) return alert("Tracking ID not found.");
             document.getElementById('result-panel').style.display = 'block';
+            // 1. Courier Card: Static brand name
+document.getElementById('courier-display').innerText = "COURIER: GLOBAL LOGISTICS LLC";
+
+// 2. Origin Card: Puts the custom address and city together in one spot
+document.getElementById('s-loc').innerText = data.sender_address + " " + data.sender_city + ", " + data.sender_country;
+
+// 3. Destination Card: Puts the address, city, and country together in one spot
+document.getElementById('r-dest').innerText = data.receiver_address + " " + data.receiver_city + ", " + data.receiver_country;
             document.getElementById('courier-display').innerText = "Courier: Global Logistics LLC";
             document.getElementById('s-name').innerText = data.sender_name || 'Global Logistics Partner';
             document.getElementById('s-loc').innerText = (data.sender_city || '') + ', ' + (data.sender_country || '');
