@@ -39,21 +39,33 @@
             <button class="btn" onclick="trackShipment()"><i class="fas fa-search"></i> TRACK</button>
         </div>
         <div id="result-panel">
-            <div id="courier-display" style="color: #D4AF37; font-weight: 800; text-align: center; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;"></div>
-            <div id="status-box" class="status-banner"><i id="status-icon" class="fas fa-shipping-fast"></i> <span id="status-text"></span></div>
-            <div class="info-grid">
-                <div class="info-card" style="border-left-color: #555;"><div class="label">Sender</div><div class="data" id="s-name"></div><div id="s-loc" style="font-size:0.8rem;color:#888"></div></div>
-                <div class="info-card"><div class="label">Consignee</div><div class="data" id="r-name"></div><div id="r-dest" style="font-size:0.8rem;color:#888"></div></div>
-                <div class="info-card"><div class="label">Service</div><div id="r-service" class="data"></div></div>
-                <div class="info-card"><div class="label">Weight</div><div id="r-weight" class="data"></div></div>
-            </div>
-            <div class="info-card"><div class="label"><i class="fas fa-map-marker-alt"></i> Current Location</div><div class="data" id="r-loc"></div>
-                <div class="map-container"><iframe id="map-frame" src=""></iframe></div>
-            </div>
-            <div class="contact-section">
-                <a href="#" class="contact-link" id="email-action"><i class="fas fa-envelope"></i> Email Consignee</a>
-                <a href="mail: trustgloballogisticsllc@gmail.com" class="contact-link"><i class="fas fa-envelop"></i> Support</a>
-            </div>
+    <div id="courier-display" style="color: #D4AF37; font-weight: 800; text-align: center; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px;">
+        Global Logistics LLC
+    </div>
+    
+    <div id="status-box" class="status-banner">
+        <i id="status-icon" class="fas fa-shipping-fast"></i> 
+        <span id="status-text"></span>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-card"><div class="label">Sender</div><div class="data" id="s-name"></div><div id="s-loc" style="font-size:0.8rem;color:#888"></div></div>
+        <div class="info-card"><div class="label">Consignee</div><div class="data" id="r-name"></div><div id="r-dest" style="font-size:0.8rem;color:#888"></div></div>
+        <div class="info-card"><div class="label">Service</div><div id="r-service" class="data" style="color:var(--gold)"></div></div>
+        <div class="info-card"><div class="label">Weight</div><div id="r-weight" class="data"></div></div>
+    </div>
+
+    <div class="info-card">
+        <div class="label"><i class="fas fa-map-marker-alt"></i> Current Location</div>
+        <div class="data" id="r-loc"></div>
+        <div class="map-container"><iframe id="map-frame" src=""></iframe></div>
+    </div>
+
+    <div class="contact-section" style="justify-content: center; border-top: 1px solid #333; margin-top: 30px; padding-top: 20px;">
+        <a href="mailto:trustgloballogisticsllc@gmail.com" class="contact-link" style="background: var(--gold); color: #000; padding: 12px 40px; border-radius: 5px; font-weight: 900;">
+            <i class="fas fa-headset"></i> SUPPORT
+        </a>
+    </div>
         </div>
     </div>
     <script>
