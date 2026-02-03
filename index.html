@@ -39,6 +39,7 @@
             <button class="btn" onclick="trackShipment()"><i class="fas fa-search"></i> TRACK</button>
         </div>
         <div id="result-panel">
+            <div id="courier-display" style="color: #D4AF37; font-weight: 800; text-align: center; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px;"></div>
     <div id="courier-display" style="color: #D4AF37; font-weight: 800; text-align: center; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px;">
         Global Logistics LLC
     </div>
@@ -75,6 +76,7 @@
             const { data, error } = await client.from('shipments').select('*').eq('tracking_number', id).single();
             if (error || !data) return alert("Tracking ID not found.");
             document.getElementById('result-panel').style.display = 'block';
+            document.getElementById('courier-display').innerText = "Courier: Global Logistics LLC";
             document.getElementById('s-name').innerText = data.sender_name || 'Global Logistics Partner';
             document.getElementById('s-loc').innerText = (data.sender_city || '') + ', ' + (data.sender_country || '');
             document.getElementById('r-name').innerText = data.receiver_name;
