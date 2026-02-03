@@ -99,23 +99,15 @@
             if (error || !data) return alert("Tracking ID not found.");
             document.getElementById('result-panel').style.display = 'block';
 
-// 1. FILL COURIER CARD (Static Brand Name)
-document.getElementById('courier-display').innerText = "COURIER: GLOBAL LOGISTICS LLC";
+           // Origin
+           document.getElementById('origin-address').innerText = '123 Warehouse Blvd';
+           document.getElementById('origin-city').innerText = 'Los Angeles';
+           document.getElementById('origin-country').innerText = 'United States';
 
-// 2. FILL ORIGIN CARD (Sender Box - Manual Origin Data)
-// This uses the 'origin' column you just added in Supabase
-document.getElementById('s-name').innerText = "ORIGIN DETAILS";
-document.getElementById('s-loc').innerText = data.origin || "Address Pending";
-
-// 3. FILL DESTINATION CARD (Consignee Box - Combined Data)
-// This merges the 3 manual columns into one professional address block
-document.getElementById('r-name').innerText = data.receiver_name || "CONSIGNEE";
-const fullDest = (data.receiver_address || '') + " " + (data.receiver_city || '') + ", " + (data.receiver_country || '');
-document.getElementById('r-dest').innerText = fullDest;
-
-// 4. FILL REMAINING CARDS (Service & Weight)
-document.getElementById('r-service').innerText = data.service_type || "Standard";
-document.getElementById('r-weight').innerText = data.weight ? data.weight + " KG" : "0.00 KG";
+           // Destination
+            document.getElementById('dest-address').innerText = '456 Receiver Street';
+            document.getElementById('dest-city').innerText = 'London';
+            document.getElementById('dest-country').innerText = 'United Kingdom';
             document.getElementById('courier-display').innerText = "Courier: Global Logistics LLC";
             document.getElementById('s-name').innerText = data.sender_name || 'Global Logistics Partner';
             document.getElementById('s-loc').innerText = (data.sender_city || '') + ', ' + (data.sender_country || '');
