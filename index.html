@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Logistics LLC | Executive Tracking</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --dark: #0f0f0f;
+            --card: #1a1a1a;
+            --text: #e0e0e0;
+            --green: #2ecc71;
+            --red: #e74c3c;
+            --amber: #f1c40f;
+        }
+
+        body { background-color: var(--dark); color: var(--text); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* Executive Header */
+        .header { background: #000; padding: 25px; text-align: center; border-bottom: 2px solid var(--gold); letter-spacing: 2px; }
+        .brand { color: var(--gold); font-size: 1.5rem; font-weight: 900; text-transform: uppercase; }
+
+        /* Main Tracking Box */
+        .container { max-width: 900px; margin: 40px auto; padding: 20px; flex: 1; }
+        .search-box { background: var(--card); padding: 30px; border-radius: 8px; border: 1px solid #333; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        input { width: 70%; padding: 15px; border-radius: 5px; border: 1px solid #444; background: #222; color: #fff; font-size: 1rem; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--gold); }
+        
+        .btn { padding: 15px 30px; background: var(--gold); color: #000; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; margin-left: 10px; transition: 0.3s; }
+        .btn:hover { background: #fff; }
+
+        /* Results Display */
+        #result-panel { display: none; margin-top: 30px; animation: fadeIn 0.5s ease; }
+        
+        /* Dynamic Status Bar */
+        .status-banner { padding: 20px; border-radius: 8px; text-align: center; font-weight: bold; font-size: 1.2rem; text-transform: uppercase; margin-bottom: 20px; color: #fff; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .status-delivered { background-color: var(--green); box-shadow: 0 0 15px rgba(46, 204, 113, 0.3); }
+        .status-transit { background-color: var(--amber); color: #000; box-shadow: 0 0 15px rgba(241, 196, 15, 0.3); }
+        .status-hold { background-color: var(--red); box-shadow: 0 0 15px rgba(231, 76, 60, 0.3); }
+
+        /* Details Grid */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .info-card { background: var(--card); padding: 20px; border-radius: 8px; border-left: 3px solid var(--gold); }
+        .label { color: #888; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px; }
+        .data { font-size: 1.1rem; font-weight: 500; }
+
+        /* Embedded Map */
+        .map-container { width: 100%; height: 300px; border-radius: 8px; overflow: hidden; border: 1px solid #333; margin-top: 20px; }
+        iframe { width: 100%; height: 100%; border: 0; }
+
+        /* Contact Section */
+        .contact-section { margin-top: 30px; padding-top: 20px; border-top: 1px solid #333; display: flex; justify-content: space-around; }
+        .contact-link { color: var(--gold); text-decoration: none; font-size: 1rem; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
+        .contact-link:hover { color: #fff; }
+
+        @media (max-width: 600px) { .info-grid { grid-template-columns: 1fr; } input { width: 100%; margin-bottom: 10px; } .btn { width: 100%; margin: 0; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="brand"><i class="fas fa-globe-africa"></i> Global Logistics LLC</div>
+    </header>
+
+    <div class="container">
+        <div class="search-box">
+            <h2 style="margin-top:0; color:#fff;">TRACK SHIPMENT</h2>
+            <input type="text" id="trackingInput" placeholder="Enter Tracking ID (e.g. GL-8821)">
+            <button class="btn" onclick="trackShipment()"><i class="fas fa-search"></i> TRACK</button>
+        </div>
+
+        <div id="result-panel">
+            
+            <div id="status-box" class="status-banner">
+                <i id="status-icon" class="fas fa-shipping-fast"></i> 
+                <span id="status-text">Checking...</span>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="label">Recipient Name</div>
+                    <div class="data" id="r-name">--</div>
+                </div>
+                <div class="info-card">
+                    <div class="label">Destination</div>
+                    <div class="data" id="r-dest">--</div>
+                </div>
+                <div class="info-card">
+                    <div class="label">Service Type</div>
+                    <div class="data" id="r-service">--</div>
+                </div>
+                <div class="info-card">
+                    <div class="label">Package Weight</div>
+                    <div class="data" id="r-weight">--</div>
+                </div>
+            </div>
+
+            <div class="info-card" style="border-left-color: var(--gold);">
+                <div class="label"><i class="fas fa-map-marker-alt" style="color:var(--gold)"></i> Current Location</div>
+                <div class="data" id="r-loc" style="font-size: 1.3rem;">--</div>
+                
+                <div class="map-container">
+                    <iframe id="map-frame" src="" loading="lazy"></iframe>
+                </div>
+            </div>
+
+            <div class="contact-section">
+                <a href="mailto:support@globallogistics.com" class="contact-link" id="email-link">
+                    <i class="fas fa-envelope"></i> <span id="email-text">support@globallogistics.com</span>
+                </a>
+                <a href="tel:+1234567890" class="contact-link">
+                    <i class="fas fa-phone-alt"></i> Executive Support
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const SUPABASE_URL = 'https://szegegtenkudltrqpwgt.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6ZWdlZ3Rlbmt1ZGx0cnFwd2d0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwMjUxMTksImV4cCI6MjA4NTYwMTExOX0.nFes3cgEF8QHVs1USV6lcvCR3E7TIAgIEvwA0FEMBZU';
+        const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        async function trackShipment() {
+            const inputId = document.getElementById('trackingInput').value.trim();
+            if (!inputId) return alert("Please enter a Tracking ID.");
+
+            // Fetch data from Supabase
+            const { data, error } = await client
+                .from('shipments')
+                .select('*')
+                .eq('tracking_number', inputId)
+                .single();
+
+            if (error || !data) {
+                alert("Shipment not found. Please check your Tracking ID.");
+                document.getElementById('result-panel').style.display = 'none';
+                return;
+            }
+
+            // --- 1. Populate Text Data ---
+            document.getElementById('result-panel').style.display = 'block';
+            document.getElementById('r-name').innerText = data.receiver_name;
+            document.getElementById('r-dest').innerText = data.receiver_city + ', ' + data.receiver_country;
+            document.getElementById('r-service').innerText = data.service_type || 'Standard Freight';
+            document.getElementById('r-weight').innerText = (data.weight_kg || '0') + ' KG';
+            document.getElementById('r-loc').innerText = data.current_location;
+
+            // --- 2. Handle Status Colors & Icons ---
+            const statusBox = document.getElementById('status-box');
+            const statusText = document.getElementById('status-text');
+            const statusIcon = document.getElementById('status-icon');
+            
+            // Reset Classes
+            statusBox.className = 'status-banner';
+            statusText.innerText = data.status;
+
+            if (data.status === 'Delivered') {
+                statusBox.classList.add('status-delivered');
+                statusIcon.className = 'fas fa-check-circle';
+            } else if (data.status === 'Held in Customs' || data.status === 'Returned to Sender') {
+                statusBox.classList.add('status-hold');
+                statusIcon.className = 'fas fa-exclamation-triangle';
+            } else {
+                // Default for "In Transit", "Picked Up", etc.
+                statusBox.classList.add('status-transit');
+                statusIcon.className = 'fas fa-shipping-fast';
+            }
+
+            // --- 3. Handle Map (No Redirect) ---
+            // Uses Google Maps Embed API with the location name from database
+            const locationQuery = encodeURIComponent(data.current_location);
+            const mapUrl = `https://maps.google.com/maps?q=${locationQuery}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+            document.getElementById('map-frame').src = mapUrl;
+
+            // --- 4. Handle Email Link ---
+            // If the database has a specific receiver email, we can use that, or default to support
+            if (data.receiver_email) {
+                // Optional: You could display the client's email here if desired
+            }
+        }
+    </script>
+</body>
+</html>
