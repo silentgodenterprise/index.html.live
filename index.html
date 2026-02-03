@@ -7,44 +7,52 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 1. Force the container to behave */
+        /* 1. Container: Matches the width of your Track box for perfect balance */
 .info-grid {
     display: flex !important;
-    flex-direction: row !important;
     flex-wrap: wrap !important;
+    gap: 10px !important;
     justify-content: flex-start !important;
-    gap: 15px !important;
     width: 100% !important;
-    max-width: 600px !important; /* Forces the grid to match the width of your Track box */
-    padding: 10px 0 !important;
+    /* This makes the grid match the Track Shipment box width */
+    max-width: 450px !important; 
+    margin: 15px 0 !important;
 }
 
-/* 2. Force the boxes to be SQUARE and aligned left */
+/* 2. The Card: Sized to be a perfect, balanced square ⬛ */
 .info-card {
-    /* This is the magic line for squares */
-    aspect-ratio: 1 / 1 !important; 
+    /* Set size to fit 2 or 3 in a row comfortably */
+    width: 130px !important;
+    height: 130px !important;
     
-    /* Adjust these two numbers to change the size of the square */
-    flex: 0 0 180px !important; 
-    width: 180px !important;
-
-    background: #1a1a1a !important;
-    border-left: 3px solid #d4af37 !important;
-    padding: 15px !important;
+    background: #111111 !important; /* Matches your dark dashboard theme */
+    border: 1px solid #333 !important;
+    border-left: 3px solid #d4af37 !important; /* The Gold Executive Line */
+    padding: 12px !important;
     box-sizing: border-box !important;
-    text-align: left !important;
-    margin: 0 !important;
     
-    /* Keeps content from spilling out of the square */
-    overflow: hidden !important; 
     display: flex !important;
     flex-direction: column !important;
+    justify-content: space-between !important;
+    text-align: left !important;
+    border-radius: 8px !important;
+    flex-shrink: 0 !important;
 }
 
-/* 3. Ensure text inside doesn't center itself */
-.info-card * {
-    text-align: left !important;
-    margin-left: 0 !important;
+/* 3. Balanced Typography */
+.info-card .label {
+    font-size: 0.65rem !important;
+    color: #888 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.info-card .data {
+    font-size: 0.85rem !important;
+    font-weight: bold !important;
+    color: #eee !important;
+    word-break: break-word !important;
+    line-height: 1.2 !important;
 }
         :root { --gold: #D4AF37; --dark: #0f0f0f; --card: #1a1a1a; --text: #e0e0e0; --green: #2ecc71; --red: #e74c3c; --amber: #f1c40f; }
         body { background-color: var(--dark); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
