@@ -41,9 +41,7 @@
         <div id="result-panel">
             <div id="status-box" class="status-banner"><i id="status-icon" class="fas fa-shipping-fast"></i> <span id="status-text"></span></div>
             <div class="info-grid">
-              <div class="info-card">
-              <div class="label">Courier</div
-                  <div class="data">Global Logistics LLC</div></div>
+              <div class="info-card"><div class="label">Courier</div<div class="data">Global Logistics LLC</div></div>
               <div class="info-card"><div class="label">Origin</div><div class="data" id="origin-address"></div><div id="origin-city" style="font-size:0.9rem;color:#ccc"></div><div id="origin-country" style="font-size:0.8rem;color:#888"></div></div>
                <div class="info-card"><div class="label">Destination</div><div class="data" id="dest-address"></div><div id="dest-city" style="font-size:0.9rem;color:#ccc"></div><div id="dest-country" style="font-size:0.8rem;color:#888"></div></div>
                <div class="info-card" style="border-left-color: #555;"><div class="label">Sender</div><div class="data" id="s-name"></div><div id="s-loc" style="font-size:0.8rem;color:#888"></div></div>
@@ -68,24 +66,12 @@
             const { data, error } = await client.from('shipments').select('*').eq('tracking_number', id).single();
             if (error || !data) return alert("Tracking ID not found.");
             document.getElementById('result-panel').style.display = 'block';
-            <script>
-    // This goes inside your "trackShipment" function after the 'data' is fetched
-    document.getElementById('result-panel').style.display = 'block';
-
-    // 1. Courier Card Mapping
-    // This displays your brand name in the Courier slot
-    document.getElementById('courier-name').innerText = "Global Logistics LLC";
-
-    // 2. Origin Card Mapping
-    document.getElementById('origin-address').innerText = data.origin || 'Origin Address Pending';
-    document.getElementById('origin-city').innerText = data.sender_city || '';
-    document.getElementById('origin-country').innerText = data.sender_country || '';
-
-    // 3. Destination Card Mapping
-    document.getElementById('dest-address').innerText = data.receiver_address || 'Destination Address Pending';
-    document.getElementById('dest-city').innerText = data.receiver_city || '';
-    document.getElementById('dest-country').innerText = data.receiver_country || '';
-
+            document.getElementById('origin-address').innerText = data.sender_address;
+            document.getElementById('origin-city').innerText = data.sender_city;
+            document.getElementById('origin-country').innerText = data.sender_country;
+            document.getElementById('dest-address').innerText = data.receiver_address;
+            document.getElementById('dest-city').innerText = data.receiver_city;
+            document.getElementById('dest-country').innerText = data.receiver_country;
             document.getElementById('s-name').innerText = data.sender_name || 'Global Logistics Partner';
             document.getElementById('s-loc').innerText = (data.sender_city || '') + ', ' + (data.sender_country || '');
             document.getElementById('r-name').innerText = data.receiver_name;
