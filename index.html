@@ -7,11 +7,38 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* 1. Reduced Container: Tightens the layout to match the cards */
+.container {
+    max-width: 600px !important; /* Reduced from 900px for better balance */
+    margin: 20px auto !important;
+    padding: 20px !important;
+}
+
+/* 2. Alignment Script: Keeps boxes "one after the other" */
+.info-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+    gap: 12px !important; /* Consistent spacing between rectangles */
+    width: 100% !important;
+}
+
+/* 3. The Boxes: Keeping your EXACT size from the screenshot */
+.info-card {
+    width: 180px !important; /* Your existing width */
+    height: 85px !important;  /* Your existing height */
+    background: #1a1a1a !important;
+    border-left: 3px solid #d4af37 !important;
+    padding: 10px !important;
+    box-sizing: border-box !important;
+    flex-shrink: 0 !important; /* Prevents resizing */
+}
         :root { --gold: #D4AF37; --dark: #0f0f0f; --card: #1a1a1a; --text: #e0e0e0; --green: #2ecc71; --red: #e74c3c; --amber: #f1c40f; }
         body { background-color: var(--dark); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
         .header { background: #000; padding: 25px; text-align: center; border-bottom: 2px solid var(--gold); letter-spacing: 2px; }
         .brand { color: var(--gold); font-size: 1.5rem; font-weight: 900; text-transform: uppercase; }
-        .container { max-width: 600px; margin: 40px auto; padding: 20px; flex: 1; }
+        .container { max-width: 900px; margin: 40px auto; padding: 20px; flex: 1; }
         .search-box { background: var(--card); padding: 30px; border-radius: 8px; border: 1px solid #333; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         input { width: 70%; padding: 15px; border-radius: 5px; border: 1px solid #444; background: #222; color: #fff; font-size: 1rem; outline: none; }
         .btn { padding: 15px 30px; background: var(--gold); color: #000; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px; }
