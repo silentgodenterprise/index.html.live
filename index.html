@@ -7,46 +7,45 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .info-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: flex-start; /* Aligns all square boxes to the left */
-    width: 100%;
-    max-width: 600px; /* Adjust this to match your "Track Shipment" box width */
-    margin: 20px auto 20px 0; /* Keeps the whole grid on the left */
+        /* 1. Force the container to behave */
+.info-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+    gap: 15px !important;
+    width: 100% !important;
+    max-width: 600px !important; /* Forces the grid to match the width of your Track box */
+    padding: 10px 0 !important;
 }
 
+/* 2. Force the boxes to be SQUARE and aligned left */
 .info-card {
-    /* To make a square, width and height must be equal */
-    width: 180px; 
-    height: 180px; 
+    /* This is the magic line for squares */
+    aspect-ratio: 1 / 1 !important; 
     
-    background: #1a1a1a;
-    border: 1px solid #333;
-    padding: 15px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    text-align: left;
-    box-sizing: border-box;
-    overflow: hidden; /* Prevents long addresses from breaking the square */
+    /* Adjust these two numbers to change the size of the square */
+    flex: 0 0 180px !important; 
+    width: 180px !important;
+
+    background: #1a1a1a !important;
+    border-left: 3px solid #d4af37 !important;
+    padding: 15px !important;
+    box-sizing: border-box !important;
+    text-align: left !important;
+    margin: 0 !important;
+    
+    /* Keeps content from spilling out of the square */
+    overflow: hidden !important; 
+    display: flex !important;
+    flex-direction: column !important;
 }
 
-.info-card .label {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    color: #888;
-    margin-bottom: 8px;
+/* 3. Ensure text inside doesn't center itself */
+.info-card * {
+    text-align: left !important;
+    margin-left: 0 !important;
 }
-
-.info-card .data {
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #fff;
-    word-wrap: break-word; /* Ensures text stays inside the square */
-            }
         :root { --gold: #D4AF37; --dark: #0f0f0f; --card: #1a1a1a; --text: #e0e0e0; --green: #2ecc71; --red: #e74c3c; --amber: #f1c40f; }
         body { background-color: var(--dark); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
         .header { background: #000; padding: 25px; text-align: center; border-bottom: 2px solid var(--gold); letter-spacing: 2px; }
