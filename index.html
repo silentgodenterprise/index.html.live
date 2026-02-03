@@ -7,53 +7,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 1. Container: Forces your boxes into a neat, left-aligned row */
-.info-grid {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important; /* Allows them to wrap to a new line if the row is full */
-    justify-content: flex-start !important;
-    gap: 12px !important; /* Space between your existing boxes */
-    width: 100% !important;
-    margin: 15px 0 !important;
-}
-
-/* 2. The Card: Locked to your EXACT existing rectangular size */
-.info-card {
-    /* These dimensions match the rectangles in your screenshot */
-    width: 175px !important; 
-    height: 85px !important; 
-
-    background: #1a1a1a !important;
-    border: 1px solid #333 !important;
-    border-left: 3px solid #d4af37 !important;
-    padding: 10px !important;
-    box-sizing: border-box !important;
-    border-radius: 6px !important;
-    
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    text-align: left !important;
-    flex-shrink: 0 !important; /* Prevents the boxes from shrinking or deforming */
-}
-
-/* 3. Text: Keeps your original label/data styling */
-.info-card .label {
-    font-size: 0.65rem !important;
-    color: #888 !important;
-    text-transform: uppercase !important;
-    margin-bottom: 2px !important;
-}
-
-.info-card .data {
-    font-size: 0.8rem !important;
-    font-weight: bold !important;
-    color: #fff !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important; /* Adds '...' if text is too long for the rectangle */
-    white-space: nowrap !important;
-}
         :root { --gold: #D4AF37; --dark: #0f0f0f; --card: #1a1a1a; --text: #e0e0e0; --green: #2ecc71; --red: #e74c3c; --amber: #f1c40f; }
         body { background-color: var(--dark); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
         .header { background: #000; padding: 25px; text-align: center; border-bottom: 2px solid var(--gold); letter-spacing: 2px; }
