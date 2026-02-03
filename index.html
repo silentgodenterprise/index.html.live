@@ -68,6 +68,24 @@
             const { data, error } = await client.from('shipments').select('*').eq('tracking_number', id).single();
             if (error || !data) return alert("Tracking ID not found.");
             document.getElementById('result-panel').style.display = 'block';
+            <script>
+    // This goes inside your "trackShipment" function after the 'data' is fetched
+    document.getElementById('result-panel').style.display = 'block';
+
+    // 1. Courier Card Mapping
+    // This displays your brand name in the Courier slot
+    document.getElementById('courier-name').innerText = "Global Logistics LLC";
+
+    // 2. Origin Card Mapping
+    document.getElementById('origin-address').innerText = data.origin || 'Origin Address Pending';
+    document.getElementById('origin-city').innerText = data.sender_city || '';
+    document.getElementById('origin-country').innerText = data.sender_country || '';
+
+    // 3. Destination Card Mapping
+    document.getElementById('dest-address').innerText = data.receiver_address || 'Destination Address Pending';
+    document.getElementById('dest-city').innerText = data.receiver_city || '';
+    document.getElementById('dest-country').innerText = data.receiver_country || '';
+
             document.getElementById('s-name').innerText = data.sender_name || 'Global Logistics Partner';
             document.getElementById('s-loc').innerText = (data.sender_city || '') + ', ' + (data.sender_country || '');
             document.getElementById('r-name').innerText = data.receiver_name;
