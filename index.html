@@ -3,130 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Logistics LLC | Executive Portal</title>
+    <title>Global Logistics LLC | Executive Tracking</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --gold: #D4AF37; --dark: #0f0f0f; --card: #1a1a1a; --text: #e0e0e0; }
-        body { background-color: var(--dark); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; }
+        :root { --gold: #D4AF37; --dark: #0a0a0a; --card: #151515; --text: #e0e0e0; --red: #e74c3c; --green: #2ecc71; --blue: #3498db; --orange: #f39c12; }
+        body { background-color: var(--dark); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding-bottom: 40px; }
         .header { background: #000; padding: 25px; text-align: center; border-bottom: 2px solid var(--gold); }
-        .container { max-width: 900px; margin: auto; padding: 20px; }
-        .card { background: var(--card); border-radius: 8px; padding: 20px; margin-bottom: 15px; border: 1px solid #333; }
-        .btn { background: var(--gold); color: #000; padding: 15px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; width: 100%; text-transform: uppercase; }
-        input { width: 100%; padding: 12px; margin: 10px 0; background: #222; border: 1px solid #444; color: #fff; border-radius: 4px; box-sizing: border-box; }
+        .brand { color: var(--gold); font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; }
+        .container { max-width: 850px; margin: 30px auto; padding: 0 20px; }
+        .search-box { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid #222; text-align: center; margin-bottom: 25px; }
+        input { width: 100%; max-width: 400px; padding: 15px; border-radius: 6px; border: 1px solid #333; background: #111; color: #fff; font-size: 1rem; box-sizing: border-box; }
+        .btn-track { padding: 15px 30px; background: var(--gold); color: #000; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; margin-top: 15px; width: 100%; max-width: 400px; text-transform: uppercase; }
         
-        /* Status Banner */
-        .status-banner { padding: 15px; border-radius: 6px; text-align: center; font-weight: 800; margin-bottom: 20px; color: #fff; }
-        .bg-red { background-color: #e74c3c; } .bg-green { background-color: #2ecc71; }
-        .bg-blue { background-color: #3498db; } .bg-orange { background-color: #f39c12; }
+        #result-panel { display: none; }
+        .courier-info { text-align: center; color: var(--gold); font-size: 0.9rem; margin-bottom: 15px; font-weight: bold; text-transform: uppercase; }
+        
+        /* Airtable-Style Status Banners */
+        .status-banner { padding: 18px; border-radius: 8px; text-align: center; font-weight: 800; font-size: 1.2rem; text-transform: uppercase; margin-bottom: 20px; color: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .status-red { background-color: var(--red); }
+        .status-green { background-color: var(--green); }
+        .status-blue { background-color: var(--blue); }
+        .status-orange { background-color: var(--orange); }
 
-        /* Logistics Routing Style */
-        .route-grid { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; text-align: center; margin-bottom: 20px; }
-        .route-point { padding: 10px; }
-        .route-arrow { color: var(--gold); font-size: 1.5rem; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .info-card { background: var(--card); padding: 20px; border-radius: 10px; border: 1px solid #222; }
+        .label { color: #777; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px; }
+        .data { font-size: 1rem; font-weight: 600; color: #fff; }
+        .sub-text { font-size: 0.8rem; color: #999; margin-top: 4px; line-height: 1.4; }
         
-        .label { color: #888; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
-        .data { font-size: 1rem; font-weight: 600; margin-top: 5px; }
-        .map-frame { width: 100%; height: 350px; border-radius: 8px; border: 1px solid #444; margin-top: 15px; }
-        .support-btn { display: block; text-align: center; background: none; border: 1px solid var(--gold); color: var(--gold); padding: 12px; border-radius: 4px; text-decoration: none; font-weight: bold; margin-top: 20px; }
+        .map-container { width: 100%; height: 320px; border-radius: 10px; overflow: hidden; border: 1px solid #333; margin-top: 15px; }
+        iframe { width: 100%; height: 100%; border: 0; }
+        
+        .support-btn { display: block; background: transparent; border: 2px solid var(--gold); color: var(--gold); padding: 15px; border-radius: 8px; text-align: center; text-decoration: none; font-weight: bold; margin-top: 25px; transition: 0.3s; }
+        .support-btn:hover { background: var(--gold); color: #000; }
     </style>
 </head>
 <body>
-
-<header class="header"><div style="color:var(--gold); font-weight:900; font-size: 1.6rem; letter-spacing: 2px;">GLOBAL LOGISTICS LLC</div></header>
-
-<div class="container">
-    <div class="card">
-        <input type="text" id="trackingInput" placeholder="Enter Tracking ID">
-        <button class="btn" onclick="trackShipment()">Secure Track</button>
-    </div>
-
-    <div id="results" style="display:none;">
-        <div style="color:var(--gold); text-align:center; margin-bottom:10px; font-size:0.9rem;">
-            <i class="fas fa-check-shield"></i> OFFICIAL SHIPMENT PORTAL
-        </div>
-        
-        <div id="status-box" class="status-banner"></div>
-
-        <div class="card">
-            <div class="route-grid">
-                <div class="route-point">
-                    <div class="label">Origin</div>
-                    <div class="data" id="res-origin"></div>
-                </div>
-                <div class="route-arrow"><i class="fas fa-plane"></i></div>
-                <div class="route-point">
-                    <div class="label">Destination</div>
-                    <div class="data" id="res-dest"></div>
-                </div>
-            </div>
+    <header class="header"><div class="brand">GLOBAL LOGISTICS LLC</div></header>
+    
+    <div class="container">
+        <div class="search-box">
+            <input type="text" id="trackingInput" placeholder="ENTER TRACKING ID">
+            <br>
+            <button class="btn-track" onclick="trackShipment()">Secure Track</button>
         </div>
 
-        <div class="card">
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div>
-                    <div class="label">Registered By (Sender)</div>
+        <div id="result-panel">
+            <div class="courier-info"><i class="fas fa-shield-check"></i> Courier: Global Logistics LLC</div>
+            <div id="status-box" class="status-banner"></div>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="label">Sender Details</div>
                     <div class="data" id="s-name"></div>
-                    <div style="font-size:0.8rem; color:#888;" id="s-addr"></div>
+                    <div class="sub-text" id="s-details"></div>
                 </div>
-                <div>
-                    <div class="label">Registered To (Recipient)</div>
+                <div class="info-card">
+                    <div class="label">Recipient Details</div>
                     <div class="data" id="r-name"></div>
-                    <div style="font-size:0.8rem; color:#888;" id="r-addr"></div>
+                    <div class="sub-text" id="r-details"></div>
                 </div>
             </div>
-        </div>
 
-        <div class="card">
-            <div class="label">Current Update Location</div>
-            <div class="data" id="res-loc"></div>
-            <div class="label" style="margin-top:10px;">Service Type: <span id="res-service" style="color:var(--gold)"></span></div>
-            <iframe id="map-frame" class="map-frame" src=""></iframe>
-        </div>
+            <div class="info-grid">
+                <div class="info-card"><div class="label">Service Type</div><div id="r-service" class="data" style="color:var(--gold)"></div></div>
+                <div class="info-card"><div class="label">Weight</div><div id="r-weight" class="data"></div></div>
+            </div>
 
-        <a id="support-link" href="mailto:trustgloballogisticsllc@gmail.com" class="support-btn">
-            <i class="fas fa-headset"></i> CONTACT SUPPORT
-        </a>
+            <div class="info-card">
+                <div class="label"><i class="fas fa-map-marker-alt"></i> Current Update Location</div>
+                <div class="data" id="r-loc"></div>
+                <div class="map-container"><iframe id="map-frame" src=""></iframe></div>
+            </div>
+
+            <a href="mailto:trustgloballogisticsllc@gmail.com" class="support-btn">
+                <i class="fas fa-headset"></i> CONTACT SUPPORT
+            </a>
+        </div>
     </div>
-</div>
 
-<script>
-    const client = supabase.createClient('https://szegegtenkudltrqpwgt.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6ZWdlZ3Rlbmt1ZGx0cnFwd2d0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwMjUxMTksImV4cCI6MjA4NTYwMTExOX0.nFes3cgEF8QHVs1USV6lcvCR3E7TIAgIEvwA0FEMBZU');
+    <script>
+        const client = supabase.createClient('https://szegegtenkudltrqpwgt.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6ZWdlZ3Rlbmt1ZGx0cnFwd2d0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwMjUxMTksImV4cCI6MjA4NTYwMTExOX0.nFes3cgEF8QHVs1USV6lcvCR3E7TIAgIEvwA0FEMBZU');
 
-    async function trackShipment() {
-        const id = document.getElementById('trackingInput').value.trim();
-        const { data, error } = await client.from('shipments').select('*').eq('tracking_number', id).single();
-        
-        if (error || !data) return alert("Security Error: Tracking Number not found.");
+        async function trackShipment() {
+            const id = document.getElementById('trackingInput').value.trim();
+            const { data, error } = await client.from('shipments').select('*').eq('tracking_number', id).single();
+            
+            if (error || !data) return alert("System Error: Tracking ID not found in Global Logistics database.");
+            
+            document.getElementById('result-panel').style.display = 'block';
+            
+            // Sender Mapping
+            document.getElementById('s-name').innerText = data.sender_name || 'Registered Origin Office';
+            document.getElementById('s-details').innerText = `${data.sender_address || ''}\n${data.sender_city || ''}, ${data.sender_country || ''}`;
+            
+            // Recipient Mapping
+            document.getElementById('r-name').innerText = data.recipient_name || data.receiver_name;
+            document.getElementById('r-details').innerText = `${data.recipient_address || data.receiver_address || ''}\n${data.recipient_city || data.receiver_city || ''}, ${data.recipient_country || data.receiver_country || ''}`;
+            
+            // Logistics Data
+            document.getElementById('r-service').innerText = data.service_type || data.service;
+            document.getElementById('r-weight').innerText = (data.weight_kg || '0') + ' KG';
+            document.getElementById('r-loc').innerText = data.current_location || data.current_loc;
 
-        document.getElementById('results').style.display = 'block';
-        
-        // Populate Data
-        document.getElementById('res-origin').innerText = data.origin_hub;
-        document.getElementById('res-dest').innerText = data.destination_hub;
-        document.getElementById('res-loc').innerText = data.current_location;
-        document.getElementById('res-service').innerText = data.service_type;
-        
-        document.getElementById('s-name').innerText = data.sender_name;
-        document.getElementById('s-addr').innerText = data.sender_full_address;
-        document.getElementById('r-name').innerText = data.recipient_name;
-        document.getElementById('r-addr').innerText = data.recipient_full_address;
+            // Airtable-Style Color Logic
+            const sb = document.getElementById('status-box');
+            const status = data.status;
+            sb.innerText = status;
+            sb.className = 'status-banner'; // Reset
 
-        // Status Colors
-        const sb = document.getElementById('status-box');
-        sb.innerText = data.status;
-        sb.className = 'status-banner ' + (
-            data.status === 'HELD IN CUSTOMS' || data.status === 'RETURNED TO SENDER' ? 'bg-red' : 
-            data.status === 'DELIVERED' ? 'bg-green' : 
-            data.status === 'IN TRANSIT' ? 'bg-blue' : 'bg-orange'
-        );
+            if (['Held in Customs', 'HELD IN CUSTOMS', 'Returned to Sender'].includes(status)) {
+                sb.classList.add('status-red');
+            } else if (status === 'Delivered' || status === 'DELIVERED') {
+                sb.classList.add('status-green');
+            } else if (status === 'In Transit' || status === 'IN TRANSIT') {
+                sb.classList.add('status-blue');
+            } else {
+                sb.classList.add('status-orange');
+            }
 
-        // Support Mail
-        document.getElementById('support-link').href = `mailto:trustgloballogisticsllc@gmail.com?subject=Support: ${data.tracking_number}`;
-
-        // Map Logic (Stays in portal)
-        document.getElementById('map-frame').src = `https://maps.google.com/maps?q=${encodeURIComponent(data.current_location)}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
-    }
-</script>
+            // Map Embed
+            const location = data.current_location || data.current_loc;
+            document.getElementById('map-frame').src = `https://maps.google.com/maps?q=${encodeURIComponent(location)}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+        }
+    </script>
 </body>
 </html>
