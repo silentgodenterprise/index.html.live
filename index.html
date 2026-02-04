@@ -7,30 +7,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Container for all cards */
-.cards-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  padding: 16px;
-}
-
-/* Each individual card */
-.card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  height: 100%;
-}
-
-/* Mobile responsive - stack to 1 column */
-@media (max-width: 768px) {
-  .cards-container {
-    grid-template-columns: 1fr;
-  }
-}
-        
         :root { --gold: #D4AF37; --dark: #0f0f0f; --card: #1a1a1a; --text: #e0e0e0; --green: #2ecc71; --red: #e74c3c; --amber: #f1c40f; }
         body { background-color: var(--dark); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
         .header { background: #000; padding: 25px; text-align: center; border-bottom: 2px solid var(--gold); letter-spacing: 2px; }
